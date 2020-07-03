@@ -1,8 +1,9 @@
-\documentclass{tnreport}
-%\documentclass[stage1a]{tnreport} % If you are in 1nd year
+%\documentclass{tnreport}
+\documentclass[stage2a]{tnreport} % If you are in 1nd year
 %\documentclass[stage2a]{tnreport} % If you are in 2nd year
 %\documentclass[confidential]{tnreport} % If you are writing confidential report
 %\documentclass[english]{tnreport} % If you are writing your report in english
+%\documentclass dispo pour l'appentissage: pde, pe1a, prd, pe2a, pfe
 
 \def\reportTitle{Winter is Coming} % Titre du mémoire
 \def\reportLongTitle{Winter is Coming -- You know nothing Jon Snow} % Titre plus long du mémoire
@@ -35,6 +36,12 @@
 \def\place{Winterfell} % Ville pour la signature pour l'engagement anti-plagiat
 \def\date{\today} % Date pour la signature de l'engagement anti-plagiat
 
+%externalisable dans un .gls
+\newglossaryentry{tem}
+{
+	name={TEM},
+	description={scanning electron microscope}
+}
 
 \begin{document}
 
@@ -112,26 +119,6 @@ hells dictumst.
 
 \cleardoublepage
 
-\chapter{Présentation de l'entreprise}
-
-Moon-flower juice, craven pride and purpose, mulled wine suscipit mauris, gown
-trencher take the black risus. In convallis tellus a mauris. Milk of the poppy
-none so fierce. Work her will. Never resting arbor gold. Gallant hac lord of
-light. Baseborn facilisis diam at odio. Mauris dictum, green dreams consequat
-elementum, lacus ligula mare's milk, godswood tread lightly here ac sem. Donec
-turpis. Lamprey tourney crypt. Your grace lance eu mauris. Quisque gravida
-ipsum non fire. Beware our sting, scelerisque vitae, motley dagger, lobortis
-ac, chamber. Aliquam spiced wine risus. The seven let me soar. Etiam death
-before disgrace. Suspendisse odio. Gallant fleet. Our sun shines bright.
-
-None so dutiful sit amet, consectetur adipisicing dwarf, sed drink, your king
-commands it no song so sweet aliqua. The last of the dragons, quis nostrud
-destrier none so wise ut aliquip ex ea commodo sellsword. Feed it to the goats
-your grace the wall flagon cillum dolore eu fugiat nulla pariatur. Trueborn a
-taste of glory proident, squire he asked too many questions mollit anim
-righteous in wrath.
-
-\cleardoublepage
 
 \chapter{Exemples Listings}
 
@@ -249,8 +236,7 @@ Ceci est une référence bibliographique~\cite{GOT4}.
 
 
 Entrée dans le glossaire:
-\newacronym{TEM}{TEM}{scanning electron microscope}
-blabla \gls{TEM}
+blabla \glsadd{tem}
 
 \cleardoublepage
 

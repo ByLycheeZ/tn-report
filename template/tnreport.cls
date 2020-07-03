@@ -17,6 +17,13 @@
 %%---Options---%%
 
 %Watermark for confidential reports
+
+\newbool{fise}
+\boolfalse{fise}
+
+\newbool{fisa}
+\boolfalse{fisa}
+
 \newbool{watermark}
 \boolfalse{watermark}
 \DeclareOption{confidential}{\booltrue{watermark}}
@@ -24,19 +31,45 @@
 %type of report : by default (nothing set) the type is stage3a
 \newbool{stage1a}
 \boolfalse{stage1a}
-\DeclareOption{stage1a}{\booltrue{stage1a}}
+\DeclareOption{stage1a}{\booltrue{fise}\booltrue{stage1a}}
 
 \newbool{stage2a}
 \boolfalse{stage2a}
-\DeclareOption{stage2a}{\booltrue{stage2a}}
+\DeclareOption{stage2a}{\booltrue{fise}\booltrue{stage2a}}
+
+\newbool{stage3a}
+\boolfalse{stage3a}
+\DeclareOption{stage3a}{\booltrue{fise}\booltrue{stage3a}}
 
 \newbool{pidr}
 \boolfalse{pidr}
-\DeclareOption{pidr}{\booltrue{pidr}}
+\DeclareOption{pidr}{\booltrue{fise}\booltrue{pidr}}
 
 \newbool{pi}
 \boolfalse{pi}
-\DeclareOption{pi}{\booltrue{pi}}
+\DeclareOption{pi}{\booltrue{fise}\booltrue{pi}}
+
+%apprenticeship
+
+\newbool{pde}
+\boolfalse{pde}
+\DeclareOption{pde}{\booltrue{fisa}\booltrue{pde}}
+
+\newbool{pe1a}
+\boolfalse{pe1a}
+\DeclareOption{pe1a}{\booltrue{fisa}\booltrue{pe1a}}
+
+\newbool{pe2a}
+\boolfalse{pe2a}
+\DeclareOption{pe2a}{\booltrue{fisa}\booltrue{pe2a}}
+
+\newbool{prd}
+\boolfalse{prd}
+\DeclareOption{prd}{\booltrue{fisa}\booltrue{prd}}
+
+\newbool{pfe}
+\boolfalse{pfe}
+\DeclareOption{pfe}{\booltrue{fisa}\booltrue{pfe}}
 
 %lang of the report, default is french
 \newbool{english}
@@ -217,7 +250,8 @@
 	
 	\def\reportIndustrialCustomer{Projet réalisé en partenariat avec ENTERPRISE} % intitulé du 'client' du PI
 	
-	\ifbool{pidr}
+	\ifbool{fise}
+	{\ifbool{pidr}
 	{\def\reportType{Projet interdisciplinaire\newline ou de recherche}
 		\def\reportSchoolDiplomaYear{2}}
 	{\ifbool{pi}
@@ -229,7 +263,28 @@
 			{\ifbool{stage2a}
 				{\def\reportType{Rapport de stage}
 					\def\reportSchoolDiplomaYear{2}}
-				{\def\reportType{Mémoire d'ingénieur}}}}}
+				{\ifbool{stage3a}
+					{\def\reportSchoolDiplomaYear{3}
+					\def\reportType{Mémoire d'ingénieur}}}}}}}
+				
+				
+				
+	\ifbool{fisa}
+	{\ifbool{prd}
+		{\def\reportType{\hspace{20mm}Projet de R\&D\newline ou de veille technologique}
+		\def\reportSchoolDiplomaYear{2}}
+		{\ifbool{pde}
+			{\def\reportType{Projet de découverte de l'entreprise}
+			\def\reportSchoolDiplomaYear{1}}
+			{\ifbool{pe1a}
+				{\def\reportType{Compte rendu de projet en entreprise}
+				\def\reportSchoolDiplomaYear{1}}
+				{\ifbool{pe2a}
+					{\def\reportType{Compte rendu de projet en entreprise}
+					\def\reportSchoolDiplomaYear{2}}
+						{\ifbool{pfe}
+							{\def\reportSchoolDiplomaYear{3}
+							\def\reportType{Mémoire d'ingénieur}}}}}}}
 }%end of french defs
 
 
@@ -283,7 +338,8 @@
 
 \vfill
 
-\ifbool{pidr}
+\ifbool{fise}
+{\ifbool{pidr}
   {\reportProjectCustomer{}}
   {\ifbool{pi}
     {\reportIndustrialCustomer{}}
@@ -291,11 +347,16 @@
 		{Stage de première année réalisé dans l'entreprise \reportCompany{}}
 		{\ifbool{stage2a}
 			{Stage de deuxième année réalisé dans l'entreprise \reportCompany{}}
-			{Stage de fin d'études réalisé dans l'entreprise 
+		{\ifbool{stage3a}	{Stage de fin d'études réalisé dans l'entreprise 
 				
 				\reportCompany{}
 
-		en vue de l'obtention du diplôme d'ingénieur de \reportSchool{}}}}}
+		en vue de l'obtention du diplôme d'ingénieur de \reportSchool{}}}}}}}
+	{\ifbool{fisa}
+	{Apprentissage réalisé dans l'entreprise \reportCompany{}
+			
+			\ifbool{pfe}{en vue de l'obtention du diplôme d'ingénieur de \reportSchool{} par apprentissage}}}
+
 }
 \vfill
 
@@ -311,19 +372,23 @@
 	{Internship supervisor: \reportSupervisor{}
 		
 		Academic supervisor: \reportAcademicSupervisor{}}}
-}{
+}
+{%french
+\ifbool{fise}{
 \ifbool{pidr}
 {Encadrant : \reportSupervisor{}}
 {\ifbool{pi}
     {Encadrant industriel : \reportSupervisor{}
 
         Encadrant académique : \reportAcademicSupervisor{}}
-    {\ifbool{stage1a}
-    	{Maître de stage : \reportSupervisor{}}
-    	{Maître de stage : \reportSupervisor{}
-
-        Encadrant universitaire : \reportAcademicSupervisor{}}}}
+    {Maître de stage : \reportSupervisor{}}}
+}{\ifbool{fisa}{
+	Maître d'apprentissage : \reportSupervisor{}
+	
+	Tuteur académique : \reportAcademicSupervisor{}}
 }
+}
+
 
 \cleardoublepage
 \setcounter{page}{1}
@@ -429,7 +494,8 @@
 
 \vfill
 
-\ifbool{pidr}
+\ifbool{fise}
+{\ifbool{pidr}
   {\reportProjectCustomer{}}
   {\ifbool{pi}
     {\reportIndustrialCustomer{}}
@@ -437,9 +503,15 @@
 		{Stage de première année réalisé dans l'entreprise \reportCompany{}}
 		{\ifbool{stage2a}
 			{Stage de deuxième année réalisé dans l'entreprise \reportCompany{}}
+			{\ifbool{stage3a}
 			{Stage de fin d'études réalisé dans l'entreprise \reportCompany{}
 
-			en vue de l'obtention du diplôme d'ingénieur de \reportSchool{}}}}}
+			en vue de l'obtention du diplôme d'ingénieur de \reportSchool{}}}}}}}%fise
+{\ifbool{fisa}
+{Apprentissage réalisé dans l'entreprise \reportCompany{}
+		
+		\ifbool{pfe}{en vue de l'obtention du diplôme d'ingénieur de \reportSchool{} par apprentissage}}}
+	
 }
 
 \vfill
@@ -473,6 +545,7 @@
 
 \medskip
 
+\ifbool{fise}{
 \ifbool{english}{
 	\ifbool{pidr}
 	{Encadrant : \reportSupervisor{}}
@@ -490,13 +563,16 @@
     {Encadrant industriel : \reportSupervisor{}
 
       Encadrant académique : \reportAcademicSupervisor{}}
-  {\ifbool{stage1a}
-    	{Maître de stage : \reportSupervisor{}}
-    	{Maître de stage : \reportSupervisor{}
+  {Maître de stage : \reportSupervisor{}}}}
+    
+}%fise
+{\ifbool{fisa}{
+Maître d'apprentissage : \reportSupervisor{}
 
-        Encadrant universitaire : \reportAcademicSupervisor{}}}}
-}
+Tuteur académique: \reportAcademicSupervisor{}
+}}%fisa
 
 \cleardoublepage
+
 }
 \makeatother
